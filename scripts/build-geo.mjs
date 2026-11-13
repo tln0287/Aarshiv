@@ -3,7 +3,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { feature } from 'topojson-client'
-import { geoContains, geoEqualEarth } from 'd3-geo'
+import { geoContains, geoEqualEarth, geoMercator } from 'd3-geo'
 
 const require = createRequire(import.meta.url)
 const land110 = require('world-atlas/land-110m.json')
@@ -54,11 +54,37 @@ const markets = [
   { id: 'australia', name: 'Australia', lon: 140, lat: -28 },
 ]
 const withXY = (m) => ({ ...m, xy: project(m.lon, m.lat) })
+// Places in India shown on the About section's map: the company's base and the Guntur chilli belt.
+const hubs = [
+  { id: 'visakhapatnam', name: 'Visakhapatnam', lon: 83.22, lat: 17.69 },
+  { id: 'guntur', name: 'Guntur', lon: 80.45, lat: 16.31 },
+]
+// Close-up dot map of India for the About section, with the hubs placed on it.
+const IW = 400, IH = 460, ISTEP = 9
+const iproj = geoMercator().fitExtent([[10, 10], [IW - 10, IH - 10]], india)
+const indiaDots = []
+for (let y = ISTEP / 2; y < IH; y += ISTEP) {
+  for (let x = ISTEP / 2; x < IW; x += ISTEP) {
+    const ll = iproj.invert([x, y])
+    if (ll && geoContains(india, ll)) indiaDots.push([x, y])
+  }
+}
+const indiaMap = {
+  width: IW,
+  height: IH,
+  step: ISTEP,
+  dots: indiaDots,
+  hubs: hubs.map((h) => ({ ...h, xy: iproj([h.lon, h.lat]).map((v) => r(v, 1)) })),
+}
+
 const out = {
   globe,
   map: { width: W, height: H, step: STEP, dots: map },
   origin: withXY(origin),
   markets: markets.map(withXY),
+  hubs: hubs.map(withXY),
+  india: indiaMap,
 }
 writeFileSync(new URL('../src/data/geo.json', import.meta.url), JSON.stringify(out))
+console.log(`india close-up dots: ${indiaDots.length}`)
 console.log(`globe dots: ${globe.length} (india ${globe.filter((d) => d[2]).length}), map dots: ${map.length}`)
