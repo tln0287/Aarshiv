@@ -7,12 +7,13 @@ import Icon from '../Icons.jsx'
 import Button from '../Button.jsx'
 import TiltArt from './TiltArt.jsx'
 import ProductModal from './ProductModal.jsx'
+import Heading3D from '../fx/Heading3D.jsx'
 
 function Meta({ label, children }) {
   return (
     <div className="flex gap-3 border-t border-line py-2.5 text-sm first:border-t-0">
       <dt className="w-32 shrink-0 text-slate">{label}</dt>
-      <dd className="font-medium text-ink">{children}</dd>
+      <dd className="font-medium text-brand">{children}</dd>
     </div>
   )
 }
@@ -23,17 +24,19 @@ function ProductCard({ product, onOpen }) {
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, scale: 0.94, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={{ opacity: 0, y: 60, rotateX: 24 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: '0px 0px -8% 0px' }}
       exit={{ opacity: 0, scale: 0.94 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`group flex flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[0_1px_0_rgba(12,20,49,0.04)] transition-[box-shadow,translate] duration-500 hover:-translate-y-1.5 hover:shadow-[0_40px_70px_-40px_rgba(12,20,49,0.45)] ${
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      style={{ transformPerspective: 1100, transformOrigin: '50% 100%' }}
+      className={`group flex flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-[0_1px_0_rgba(11,36,22,0.04)] transition-[box-shadow,translate] duration-500 hover:-translate-y-1.5 hover:shadow-[0_40px_70px_-40px_rgba(11,36,22,0.45)] ${
         featured ? 'md:col-span-2 lg:grid lg:grid-cols-[1.15fr_1fr]' : ''
       }`}
     >
       <button type="button" onClick={() => onOpen(product)} className="relative block text-left" aria-label={`View ${product.name}`}>
         <TiltArt product={product} className={featured ? 'aspect-[5/4] lg:aspect-auto lg:h-full' : 'aspect-[5/4]'} />
-        <span className="absolute top-4 left-4 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-ink tabular-nums backdrop-blur">{product.no}</span>
+        <span className="absolute top-4 left-4 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-brand tabular-nums backdrop-blur">{product.no}</span>
         {featured && <span className="absolute top-4 right-4 rounded-full bg-chilli px-3 py-1 text-xs font-semibold text-white">From Andhra Pradesh</span>}
       </button>
       <div className="flex flex-1 flex-col p-6 sm:p-7">
@@ -46,7 +49,7 @@ function ProductCard({ product, onOpen }) {
           <Meta label="Export">{product.availability}</Meta>
         </dl>
         <div className="mt-auto flex flex-wrap gap-2.5">
-          <Button as="button" type="button" variant="ink" onClick={() => onOpen(product)} className="min-h-11 px-5 text-sm">
+          <Button as="button" type="button" variant="brand" onClick={() => onOpen(product)} className="min-h-11 px-5 text-sm">
             View Product
           </Button>
           <Button as="button" type="button" variant="outline" arrow={false} onClick={() => requestQuote(product.name)} className="min-h-11 px-5 text-sm">
@@ -69,7 +72,7 @@ export default function Products() {
       <div className="wrap">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <Reveal>
-            <h2 className="h2">Our products</h2>
+            <Heading3D text="Our products" className="h2" />
             <p className="lede mt-4 text-slate">Authentic Indian products. Global quality.</p>
           </Reveal>
           <Reveal delay={0.1} className="text-sm text-slate lg:max-w-xs lg:text-right">
@@ -86,10 +89,10 @@ export default function Products() {
                 onClick={() => setCat(c)}
                 aria-pressed={cat === c}
                 className={`relative min-h-11 rounded-full border px-4.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                  cat === c ? 'border-ink text-white' : 'border-line bg-white/60 text-slate hover:border-ink/40 hover:text-ink'
+                  cat === c ? 'border-brand text-white' : 'border-line bg-white/60 text-slate hover:border-brand/40 hover:text-brand'
                 }`}
               >
-                {cat === c && <motion.span layoutId="cat-pill" className="absolute inset-0 -z-0 rounded-full bg-ink" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />}
+                {cat === c && <motion.span layoutId="cat-pill" className="absolute inset-0 -z-0 rounded-full bg-brand" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />}
                 <span className="relative">{c}</span>
               </button>
             ))}
@@ -108,10 +111,10 @@ export default function Products() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="col-span-full flex flex-col items-start gap-5 rounded-[1.75rem] border border-dashed border-ink/25 bg-white/50 p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10"
+                className="col-span-full flex flex-col items-start gap-5 rounded-[1.75rem] border border-dashed border-brand/25 bg-white/50 p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10"
               >
                 <div className="flex items-start gap-4">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-full bg-ink text-saffron-2">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-full bg-brand text-gold-2">
                     <Icon name="leaf" className="size-6" />
                   </span>
                   <div>

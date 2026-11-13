@@ -42,12 +42,12 @@ export function FarmScene() {
       <defs>
         {[0, 35, 90].map((a, i) => (
           <pattern key={i} id={`rows${i}`} width="7" height="7" patternUnits="userSpaceOnUse" patternTransform={`rotate(${a})`}>
-            <line x1="0" y1="0" x2="0" y2="7" stroke="#0c1431" strokeOpacity=".22" strokeWidth="2" />
+            <line x1="0" y1="0" x2="0" y2="7" stroke="#0b2416" strokeOpacity=".22" strokeWidth="2" />
           </pattern>
         ))}
         <radialGradient id="farmlight" cx=".3" cy=".2" r="1">
           <stop offset="0" stopColor="#fff3dc" stopOpacity=".35" />
-          <stop offset="1" stopColor="#0c1431" stopOpacity=".35" />
+          <stop offset="1" stopColor="#0b2416" stopOpacity=".35" />
         </radialGradient>
       </defs>
       <motion.g initial={{ scale: 1 }} animate={{ scale: 1.25 }} transition={{ duration: 1.6, ease: 'linear' }} style={{ originX: '55%', originY: '60%' }}>
@@ -86,7 +86,7 @@ export function CropScene() {
     <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" className="size-full">
       <defs>
         <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#1b2a5e" />
+          <stop offset="0" stopColor="#1e6b3a" />
           <stop offset=".55" stopColor="#c9703a" />
           <stop offset="1" stopColor="#f3c27a" />
         </linearGradient>
@@ -118,8 +118,8 @@ function Glow({ id = 'pglow' }) {
     <>
       <defs>
         <radialGradient id={id} cx=".5" cy=".5" r=".6">
-          <stop offset="0" stopColor="#2c3f86" />
-          <stop offset="1" stopColor="#0c1431" />
+          <stop offset="0" stopColor="#1f5a36" />
+          <stop offset="1" stopColor="#0b2416" />
         </radialGradient>
       </defs>
       <rect width="400" height="400" fill={`url(#${id})`} />
@@ -159,7 +159,7 @@ export function ProductScene() {
   return (
     <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" className="size-full">
       <Glow />
-      <circle cx="200" cy="200" r="120" fill="#e8892b" opacity=".08" />
+      <circle cx="200" cy="200" r="120" fill="#d99a1f" opacity=".08" />
       <motion.g {...item(0)} style={{ originX: '200px', originY: '150px' }}>
         <Grain transform="translate(200 145) rotate(-12)" />
       </motion.g>
@@ -194,12 +194,12 @@ export function PackScene() {
         <path d="M128 132 L 272 132 L 284 320 Q 200 336 116 320 Z" fill="url(#kraft)" />
         <path d="M128 132 L 272 132 L 268 116 L 132 116 Z" fill="#a17a4a" />
         <path d="M134 124 H 266" stroke="#7d5c33" strokeWidth="2" strokeDasharray="4 4" />
-        <rect x="140" y="190" width="120" height="96" rx="10" fill="#1b2a5e" />
+        <rect x="140" y="190" width="120" height="96" rx="10" fill="#1e6b3a" />
         <MarkShapes transform="translate(186 200) scale(.28)" />
-        <text x="200" y="256" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="700" letterSpacing="2.4" fontFamily="Sora, sans-serif">
-          AARSHIV
+        <text x="200" y="256" textAnchor="middle" fill="#fff" fontSize="10.5" fontWeight="700" letterSpacing="1" fontFamily="Outfit, sans-serif">
+          SAMPATKARI
         </text>
-        <rect x="176" y="266" width="48" height="2" fill="#e8892b" />
+        <rect x="176" y="266" width="48" height="2" fill="#d99a1f" />
         <path d="M150 150 Q 158 230 150 310" stroke="#fff" strokeOpacity=".12" strokeWidth="10" fill="none" />
       </motion.g>
     </svg>
@@ -213,13 +213,13 @@ export function ContainerScene() {
     <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" className="size-full">
       <defs>
         <pattern id="corr" width="10" height="10" patternUnits="userSpaceOnUse">
-          <rect width="10" height="10" fill="#24356f" />
-          <rect width="4" height="10" fill="#1b2a5e" />
+          <rect width="10" height="10" fill="#25804a" />
+          <rect width="4" height="10" fill="#1e6b3a" />
         </pattern>
       </defs>
-      <rect width="400" height="400" fill="#121c42" />
-      <rect y="320" width="400" height="80" fill="#0c1431" />
-      <rect x="70" y="100" width="260" height="220" rx="4" fill="#0a1029" stroke="#2f428a" strokeWidth="8" />
+      <rect width="400" height="400" fill="#0f2f1d" />
+      <rect y="320" width="400" height="80" fill="#0b2416" />
+      <rect x="70" y="100" width="260" height="220" rx="4" fill="#08190f" stroke="#2c6e3f" strokeWidth="8" />
       {cartons.map(([c, r], i) => (
         <motion.g
           key={i}
@@ -229,32 +229,32 @@ export function ContainerScene() {
         >
           <rect x={92 + c * 55} y={252 - r * 62} width="50" height="56" rx="3" fill="#c9a170" stroke="#8f6a3c" strokeWidth="2" />
           <path d={`M${92 + c * 55} ${270 - r * 62} h50`} stroke="#8f6a3c" strokeWidth="1.5" />
-          <circle cx={117 + c * 55} cy={290 - r * 62} r="5" fill="#1b2a5e" />
+          <circle cx={117 + c * 55} cy={290 - r * 62} r="5" fill="#1e6b3a" />
         </motion.g>
       ))}
       {[0, 1].map((s) => (
         <motion.g key={s} initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.45, delay: 0.75, ease }} style={{ originX: s ? '330px' : '70px', originY: '0px' }}>
-          <rect x={s ? 200 : 70} y="100" width="130" height="220" fill="url(#corr)" stroke="#2f428a" strokeWidth="4" />
-          <rect x={s ? 214 : 176} y="112" width="6" height="196" rx="3" fill="#7f8db8" />
-          <rect x={s ? 234 : 156} y="112" width="6" height="196" rx="3" fill="#7f8db8" />
+          <rect x={s ? 200 : 70} y="100" width="130" height="220" fill="url(#corr)" stroke="#2c6e3f" strokeWidth="4" />
+          <rect x={s ? 214 : 176} y="112" width="6" height="196" rx="3" fill="#9fb8a6" />
+          <rect x={s ? 234 : 156} y="112" width="6" height="196" rx="3" fill="#9fb8a6" />
           {s === 0 && (
             <MarkShapes transform="translate(110 168) scale(.5)" />
           )}
           {s === 1 && (
-            <text x="285" y="214" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="700" letterSpacing="2" fontFamily="Sora, sans-serif">
-              AARSHIV
+            <text x="285" y="214" textAnchor="middle" fill="#fff" fontSize="11" fontWeight="700" letterSpacing="1" fontFamily="Outfit, sans-serif">
+              SAMPATKARI
             </text>
           )}
         </motion.g>
       ))}
-      <rect x="66" y="94" width="268" height="10" fill="#e8892b" />
+      <rect x="66" y="94" width="268" height="10" fill="#d99a1f" />
     </svg>
   )
 }
 
 const STACK = (() => {
   const r = rng(14)
-  const fills = ['#24356f', '#e8892b', '#3f8f55', '#c8ccd8', '#1b2a5e', '#b8321f', '#2f428a']
+  const fills = ['#25804a', '#d99a1f', '#3f8f55', '#c8ccd8', '#1e6b3a', '#b8321f', '#2c6e3f']
   const s = []
   for (let row = 0; row < 3; row++) for (let c = 0; c < 9 - row; c++) s.push({ x: 92 + c * 26 + row * 6, y: 236 - row * 16, f: fills[Math.floor(r() * fills.length)] })
   return s
@@ -265,39 +265,39 @@ export function ShipScene() {
     <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" className="size-full">
       <defs>
         <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#141f47" />
+          <stop offset="0" stopColor="#133b24" />
           <stop offset=".62" stopColor="#7a4a52" />
           <stop offset=".75" stopColor="#e3954d" />
         </linearGradient>
         <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#24356f" />
-          <stop offset="1" stopColor="#0c1431" />
+          <stop offset="0" stopColor="#25804a" />
+          <stop offset="1" stopColor="#0b2416" />
         </linearGradient>
       </defs>
       <rect width="400" height="300" fill="url(#dusk)" />
       <circle cx="300" cy="262" r="30" fill="#ffcf8a" />
       <rect y="270" width="400" height="130" fill="url(#sea)" />
-      <path d="M260 280 h80 M250 292 h100 M270 304 h60" stroke="#f3a65a" strokeOpacity=".5" strokeWidth="2" />
-      <g stroke="#2b3d7a" strokeWidth="5" fill="none">
+      <path d="M260 280 h80 M250 292 h100 M270 304 h60" stroke="#e8b84a" strokeOpacity=".5" strokeWidth="2" />
+      <g stroke="#2a5a3a" strokeWidth="5" fill="none">
         <path d="M40 270 V 90 H 210" />
         <path d="M60 270 V 110" />
         <path d="M40 120 L 60 100 M40 160 L 60 140 M40 200 L 60 180 M40 240 L 60 220" strokeWidth="3" />
       </g>
       <motion.g initial={{ x: 0 }} animate={{ x: 18 }} transition={{ duration: 1.6, ease: 'linear' }}>
         {STACK.map((c, i) => (
-          <rect key={i} x={c.x} y={c.y} width="24" height="14" fill={c.f} stroke="#0c1431" strokeWidth="1" />
+          <rect key={i} x={c.x} y={c.y} width="24" height="14" fill={c.f} stroke="#0b2416" strokeWidth="1" />
         ))}
-        <path d="M70 252 H 340 L 322 300 H 92 Z" fill="#0f1838" />
-        <path d="M74 262 H 336" stroke="#e8892b" strokeWidth="3" />
+        <path d="M70 252 H 340 L 322 300 H 92 Z" fill="#0d2a1a" />
+        <path d="M74 262 H 336" stroke="#d99a1f" strokeWidth="3" />
         <rect x="300" y="196" width="30" height="56" fill="#dfe3ee" />
-        <rect x="304" y="204" width="22" height="6" fill="#1b2a5e" />
+        <rect x="304" y="204" width="22" height="6" fill="#1e6b3a" />
         <rect x="312" y="184" width="8" height="14" fill="#b8321f" />
       </motion.g>
       <motion.g initial={{ y: -60 }} animate={{ y: 0 }} transition={{ duration: 1.1, ease }}>
-        <line x1="170" y1="90" x2="170" y2="178" stroke="#7f8db8" strokeWidth="2" />
-        <rect x="155" y="178" width="30" height="16" fill="#e8892b" stroke="#0c1431" />
+        <line x1="170" y1="90" x2="170" y2="178" stroke="#9fb8a6" strokeWidth="2" />
+        <rect x="155" y="178" width="30" height="16" fill="#d99a1f" stroke="#0b2416" />
       </motion.g>
-      <path d="M0 330 q 20 -6 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0" stroke="#3a51a0" strokeOpacity=".5" strokeWidth="2" fill="none" />
+      <path d="M0 330 q 20 -6 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0" stroke="#4c9a5a" strokeOpacity=".5" strokeWidth="2" fill="none" />
     </svg>
   )
 }

@@ -1,4 +1,5 @@
 import { company, contact } from '../config/site.js'
+import { motion } from 'framer-motion'
 import Logo from './Logo.jsx'
 
 const columns = [
@@ -8,7 +9,7 @@ const columns = [
       ['About', '#about'],
       ['Products', '#products'],
       ['Export Process', '#process'],
-      ['Why Aarshiv', '#why'],
+      ['Why Sampatkari', '#why'],
     ],
   },
   {
@@ -65,7 +66,7 @@ export default function Footer() {
                         <a
                           href={href}
                           {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                          className="text-[0.95rem] text-white/85 transition-colors hover:text-saffron-2"
+                          className="text-[0.95rem] text-white/85 transition-colors hover:text-gold-2"
                         >
                           {label}
                         </a>
@@ -82,15 +83,23 @@ export default function Footer() {
           </nav>
         </div>
         <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-mist sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Aarshiv Private Limited. All Rights Reserved.</p>
+          <p>© 2026 Sampatkari Agro Private Limited. All Rights Reserved.</p>
           <a href="#home" className="hover:text-white">
             Back to top ↑
           </a>
         </div>
       </div>
-      <div aria-hidden="true" className="pointer-events-none -mb-[0.18em] text-center text-[22vw] leading-[0.8] font-bold tracking-[-0.04em] text-white/[0.04] select-none">
-        AARSHIV
-      </div>
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none -mb-[0.18em] text-center text-[14vw] leading-[0.8] font-bold tracking-[-0.04em] text-white/[0.05] select-none"
+        initial={{ rotateX: 80, y: 40, opacity: 0 }}
+        whileInView={{ rotateX: 0, y: 0, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        style={{ transformPerspective: 900, transformOrigin: '50% 100%' }}
+      >
+        SAMPATKARI
+      </motion.div>
     </footer>
   )
 }

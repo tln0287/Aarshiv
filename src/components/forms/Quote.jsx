@@ -4,6 +4,7 @@ import { useQuote } from '../../lib/quote.jsx'
 import Reveal from '../Reveal.jsx'
 import Form from './Form.jsx'
 import Icon from '../Icons.jsx'
+import Heading3D from '../fx/Heading3D.jsx'
 
 const fields = [
   { name: 'fullName', label: 'Full Name', required: true, autoComplete: 'name' },
@@ -31,16 +32,16 @@ export default function Quote() {
   const setValue = (k, v) => (k === 'product' ? setProduct(v) : setValues((s) => ({ ...s, [k]: v })))
 
   return (
-    <section id="quote" className="relative overflow-hidden bg-night py-24 text-white sm:py-32">
-      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(50%_60%_at_85%_10%,rgba(232,137,43,0.16),transparent_70%),radial-gradient(60%_60%_at_0%_100%,#22357a,transparent_70%)]" />
+    <section id="quote" className="relative overflow-hidden bg-paper-2 py-24 sm:py-32">
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(50%_60%_at_85%_10%,color-mix(in_oklab,var(--color-gold)_16%,transparent),transparent_70%),radial-gradient(60%_60%_at_0%_100%,var(--color-glow),transparent_70%)]" />
       <div className="wrap relative grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <Reveal>
-          <h2 className="h2">Request a quote</h2>
-          <p className="lede mt-5 text-mist">Tell us the product, quantity and destination. We will come back with pricing and availability.</p>
+          <Heading3D text="Request a quote" className="h2" />
+          <p className="lede mt-5 text-slate">Tell us the product, quantity and destination. We will come back with pricing and availability.</p>
           <ul className="mt-10 space-y-5">
             {notes.map(([icon, text]) => (
-              <li key={icon} className="flex items-start gap-4 text-white/85">
-                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/8 text-saffron-2">
+              <li key={icon} className="flex items-start gap-4 text-ink/85">
+                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-brand/10 text-brand">
                   <Icon name={icon} className="size-5" />
                 </span>
                 <span className="pt-2">{text}</span>
@@ -48,10 +49,9 @@ export default function Quote() {
             ))}
           </ul>
         </Reveal>
-        <Reveal delay={0.1} className="glass rounded-[2rem] border border-white/12 p-6 sm:p-9">
+        <Reveal delay={0.1} className="rounded-[2rem] border border-line bg-white p-6 shadow-[0_40px_80px_-50px_rgba(11,36,22,0.35)] sm:p-9">
           <Form
             kind="quote"
-            dark
             fields={fields}
             values={all}
             setValue={setValue}

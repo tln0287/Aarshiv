@@ -38,11 +38,11 @@ export default function Nav() {
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
       <div
         className={`mx-auto flex max-w-[84rem] items-center justify-between rounded-full transition-all duration-500 ease-out-soft ${
-          scrolled ? 'glass h-16 border border-white/10 pl-5 pr-2 shadow-[0_20px_50px_-25px_rgba(0,0,0,0.6)]' : 'h-20 border border-transparent pl-2 pr-0 sm:pl-3'
+          scrolled ? 'glass-light h-16 border border-line pl-5 pr-2 shadow-[0_20px_50px_-28px_rgba(11,36,22,0.3)]' : 'h-20 border border-transparent pl-2 pr-0 sm:pl-3'
         }`}
       >
-        <a href="#home" aria-label="Aarshiv Private Limited, home" className="shrink-0">
-          <Logo compact={scrolled} />
+        <a href="#home" aria-label="Sampatkari Agro Private Limited, home" className="shrink-0">
+          <Logo dark compact={scrolled} />
         </a>
         <nav aria-label="Primary" className="hidden xl:block">
           <ul className="flex items-center gap-1">
@@ -51,9 +51,9 @@ export default function Nav() {
                 <a
                   href={`#${n.id}`}
                   aria-current={active === n.id ? 'true' : undefined}
-                  className={`relative rounded-full px-3.5 py-2 text-[0.9rem] transition-colors ${active === n.id ? 'text-white' : 'text-white/65 hover:text-white'}`}
+                  className={`relative rounded-full px-3.5 py-2 text-[0.9rem] transition-colors ${active === n.id ? 'text-brand' : 'text-ink/65 hover:text-ink'}`}
                 >
-                  {active === n.id && <motion.span layoutId="nav-pill" className="absolute inset-0 -z-10 rounded-full bg-white/10" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
+                  {active === n.id && <motion.span layoutId="nav-pill" className="absolute inset-0 -z-10 rounded-full bg-brand/10" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
                   {n.label}
                 </a>
               </li>
@@ -69,7 +69,7 @@ export default function Nav() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex size-12 items-center justify-center rounded-full text-white hover:bg-white/10 xl:hidden"
+            className="inline-flex size-12 items-center justify-center rounded-full text-ink hover:bg-brand/5 xl:hidden"
             aria-label="Open menu"
             aria-expanded={open}
           >
@@ -81,7 +81,7 @@ export default function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 flex flex-col bg-night/97 px-5 pt-5 pb-8 text-white backdrop-blur-xl xl:hidden"
+            className="fixed inset-0 z-50 flex flex-col bg-paper/97 px-5 pt-5 pb-8 text-ink backdrop-blur-xl xl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -90,8 +90,8 @@ export default function Nav() {
             aria-label="Menu"
           >
             <div className="flex items-center justify-between">
-              <Logo compact />
-              <button type="button" onClick={() => setOpen(false)} className="inline-flex size-12 items-center justify-center rounded-full hover:bg-white/10" aria-label="Close menu" autoFocus>
+              <Logo dark compact />
+              <button type="button" onClick={() => setOpen(false)} className="inline-flex size-12 items-center justify-center rounded-full hover:bg-brand/5" aria-label="Close menu" autoFocus>
                 <Icon name="close" className="size-6" />
               </button>
             </div>
@@ -102,9 +102,9 @@ export default function Nav() {
                     <a
                       href={`#${n.id}`}
                       onClick={() => setOpen(false)}
-                      className={`flex items-baseline gap-4 border-b border-white/10 py-4 text-2xl font-semibold tracking-tight ${active === n.id ? 'text-saffron-2' : ''}`}
+                      className={`flex items-baseline gap-4 border-b border-line py-4 text-2xl font-semibold tracking-tight ${active === n.id ? 'text-brand' : ''}`}
                     >
-                      <span className="w-6 text-xs font-normal text-white/40 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="w-6 text-xs font-normal text-ink/40 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
                       {n.label}
                     </a>
                   </motion.li>

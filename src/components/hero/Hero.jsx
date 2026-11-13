@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Button from '../Button.jsx'
 import Icon from '../Icons.jsx'
 import Globe from '../globe/Globe.jsx'
+import Heading3D from '../fx/Heading3D.jsx'
 import { SCENES } from './HeroScenes.jsx'
 import { useLiteMode, useReducedMotion } from '../../lib/hooks.js'
 import { company } from '../../config/site.js'
@@ -15,7 +16,7 @@ const ease = [0.22, 1, 0.36, 1]
 
 function seenIntro() {
   try {
-    return sessionStorage.getItem('aarshiv-intro') === '1'
+    return sessionStorage.getItem('sampatkari-intro') === '1'
   } catch {
     return false
   }
@@ -34,7 +35,7 @@ export default function Hero() {
   useEffect(() => {
     if (phase >= FINAL) {
       try {
-        sessionStorage.setItem('aarshiv-intro', '1')
+        sessionStorage.setItem('sampatkari-intro', '1')
       } catch {}
       return
     }
@@ -53,10 +54,10 @@ export default function Hero() {
   const step = Math.min(phase, STEPS.length - 1)
 
   return (
-    <section id="home" className="relative isolate flex min-h-svh items-center overflow-hidden bg-night pt-20 pb-14 text-white lg:pt-28">
+    <section id="home" className="relative isolate flex min-h-svh items-center overflow-hidden bg-paper pt-20 pb-14 text-ink lg:pt-28">
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_75%_45%,#22357a_0%,transparent_60%),radial-gradient(40%_50%_at_10%_100%,rgba(232,137,43,0.16)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(#fff_1px,transparent_1px)] [background-size:26px_26px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_75%_45%,var(--color-glow)_0%,transparent_60%),radial-gradient(40%_50%_at_10%_100%,color-mix(in_oklab,var(--color-gold)_16%,transparent)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(var(--color-brand)_1px,transparent_1px)] [background-size:26px_26px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
       </div>
 
       <div className="wrap grid items-center gap-10 lg:grid-cols-[1.02fr_1fr] lg:gap-6">
@@ -70,26 +71,22 @@ export default function Hero() {
             aria-hidden={intro || undefined}
             style={{ pointerEvents: intro ? 'none' : 'auto' }}
           >
-            <p className="mb-6 flex items-center gap-3 text-sm text-mist">
-              <span className="h-px w-10 bg-saffron" />
+            <p className="mb-6 flex items-center gap-3 text-sm text-slate">
+              <span className="h-px w-10 bg-gold" />
               {company.name}
             </p>
-            <h1 className="display text-[clamp(3rem,1.4rem+5vw,5.6rem)]">
-              We export
-              <br />
-              your need.
-            </h1>
-            <p className="mt-7 max-w-xl text-lg font-medium text-white/90 sm:text-xl">Premium Agricultural &amp; Food Products from India to the World.</p>
-            <p className="lede mt-4 text-mist">
-              Aarshiv Private Limited connects global buyers with carefully sourced agricultural products from India, delivering quality, reliability and
+            <Heading3D as="h1" play={!intro} delay={0.15} text={'We export\nyour need.'} className="display text-[clamp(3rem,1.4rem+5vw,5.6rem)]" />
+            <p className="mt-7 max-w-xl text-lg font-medium text-ink/90 sm:text-xl">Premium Agricultural &amp; Food Products from India to the World.</p>
+            <p className="lede mt-4 text-slate">
+              Sampatkari Agro Private Limited connects global buyers with carefully sourced agricultural products from India, delivering quality, reliability and
               consistency across international markets.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Button href="#products">Explore Products</Button>
-              <Button href="#requirement" variant="ghost">
+              <Button href="#requirement" variant="outline">
                 Become a Buyer
               </Button>
-              <a href="#quote" className="group ml-1 inline-flex min-h-12 items-center gap-2 px-2 text-[0.95rem] font-semibold text-saffron-2 hover:text-saffron">
+              <a href="#quote" className="group ml-1 inline-flex min-h-12 items-center gap-2 px-2 text-[0.95rem] font-semibold text-brand hover:text-brand-2">
                 Request a Quote
                 <Icon name="arrow" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
@@ -105,12 +102,12 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, y: -16, transition: { duration: 0.5 } }}
               >
-                <p className="text-sm text-mist">{company.supportingTagline}</p>
+                <p className="text-sm text-slate">{company.supportingTagline}</p>
                 <ol className="mt-6 space-y-1.5" aria-label="Export journey">
                   {STEPS.map((label, i) => (
                     <li
                       key={label}
-                      className={`flex items-baseline gap-4 transition-all duration-500 ${i === step ? 'text-white' : i < step ? 'text-white/35' : 'text-white/15'}`}
+                      className={`flex items-baseline gap-4 transition-all duration-500 ${i === step ? 'text-ink' : i < step ? 'text-ink/35' : 'text-ink/15'}`}
                     >
                       <span className="w-6 text-xs tabular-nums">{String(i + 1).padStart(2, '0')}</span>
                       <span className={`font-semibold tracking-tight transition-all duration-500 ${i === step ? 'text-4xl sm:text-5xl' : 'text-xl sm:text-2xl'}`}>{label}</span>
@@ -120,7 +117,7 @@ export default function Hero() {
                 <button
                   type="button"
                   onClick={() => setPhase(FINAL)}
-                  className="mt-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/80 hover:border-white/60 hover:text-white"
+                  className="mt-8 inline-flex w-fit items-center gap-2 rounded-full border border-brand/25 px-4 py-2 text-sm text-ink/80 hover:border-brand hover:text-ink"
                 >
                   Skip intro <Icon name="chevron" className="size-4" />
                 </button>
@@ -159,21 +156,21 @@ export default function Hero() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              {intro && <div className="absolute inset-0 rounded-full shadow-[inset_0_0_60px_rgba(12,20,49,0.9)]" />}
+              {intro && <div className="absolute inset-0 rounded-full shadow-[inset_0_0_60px_rgba(11,36,22,0.9)]" />}
             </div>
-            {intro && <div className="pointer-events-none absolute inset-[12.7%] rounded-full ring-1 ring-white/15" aria-hidden="true" />}
+            {intro && <div className="pointer-events-none absolute inset-[12.7%] rounded-full ring-1 ring-brand/20" aria-hidden="true" />}
           </div>
 
           <motion.div
-            className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-sm text-mist"
+            className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-sm text-slate"
             initial={false}
             animate={{ opacity: intro ? 0 : 1 }}
             transition={{ duration: 0.8, delay: intro ? 0 : 0.3 }}
           >
-            <span className="text-white/85">Premium Products from India. Global Possibilities.</span>
+            <span className="text-ink/85">Premium Products from India. Global Possibilities.</span>
             <span className="hidden sm:inline">{lite ? 'Tap a destination' : 'Drag to turn · hover a destination'}</span>
             {!intro && !reduce && (
-              <button type="button" onClick={replay} className="inline-flex items-center gap-1.5 text-saffron-2 hover:text-saffron">
+              <button type="button" onClick={replay} className="inline-flex items-center gap-1.5 text-brand hover:text-brand-2">
                 <Icon name="replay" className="size-4" /> Replay journey
               </button>
             )}
@@ -184,9 +181,9 @@ export default function Hero() {
       <a
         href="#about"
         aria-label="Scroll to About"
-        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs text-white/50 hover:text-white lg:flex"
+        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs text-ink/50 hover:text-ink lg:flex"
       >
-        <span className="h-10 w-px bg-gradient-to-b from-transparent to-white/60" />
+        <span className="h-10 w-px bg-gradient-to-b from-transparent to-brand/60" />
       </a>
     </section>
   )

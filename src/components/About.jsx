@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { animate, useInView } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 import Icon from './Icons.jsx'
+import Heading3D from './fx/Heading3D.jsx'
 
 const pillars = [
   { no: 1, title: 'Premium Sourcing', icon: 'sprout', text: 'Products selected from trusted suppliers and farmers across India.' },
@@ -31,11 +32,11 @@ export default function About() {
       <div className="wrap">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <Reveal>
-            <h2 className="h2 max-w-[14ch]">Connecting India with the world</h2>
+            <Heading3D text="Connecting India with the world" className="h2 max-w-[14ch]" />
           </Reveal>
           <Reveal delay={0.1} className="space-y-5 text-slate">
             <p className="lede">
-              Aarshiv Private Limited is an India-based export and import company focused on delivering quality agricultural and food products to international
+              Sampatkari Agro Private Limited is an India-based export and import company focused on delivering quality agricultural and food products to international
               markets.
             </p>
             <p className="lede">
@@ -48,16 +49,16 @@ export default function About() {
           {pillars.map((p, i) => (
             <Reveal as="li" key={p.no} delay={i * 0.1} className="group relative bg-paper p-7 transition-colors duration-500 hover:bg-white sm:p-9">
               <div className="flex items-start justify-between">
-                <span className="text-[4.5rem] leading-none font-semibold tracking-[-0.05em] text-ink">
+                <span className="text-[4.5rem] leading-none font-semibold tracking-[-0.05em] text-brand">
                   <Count to={p.no} />
                 </span>
-                <span className="grid size-12 place-items-center rounded-full bg-ink text-saffron-2 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-6">
+                <span className="grid size-12 place-items-center rounded-full bg-brand text-gold-2 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-6">
                   <Icon name={p.icon} className="size-6" />
                 </span>
               </div>
               <h3 className="mt-10 text-xl font-semibold tracking-tight">{p.title}</h3>
               <p className="mt-2 max-w-[34ch] text-slate">{p.text}</p>
-              <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-saffron transition-transform duration-700 ease-out-soft group-hover:scale-x-100" />
+              <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gold transition-transform duration-700 ease-out-soft group-hover:scale-x-100" />
             </Reveal>
           ))}
         </ol>

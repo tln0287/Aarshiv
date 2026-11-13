@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Reveal from '../Reveal.jsx'
 import Form from './Form.jsx'
 import Button from '../Button.jsx'
+import Heading3D from '../fx/Heading3D.jsx'
 
 const fields = [
   { name: 'name', label: 'Name', required: true, autoComplete: 'name' },
@@ -21,25 +22,25 @@ export default function Requirement() {
     <section id="requirement" className="bg-paper py-24 sm:py-32">
       <div className="wrap grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <Reveal className="lg:sticky lg:top-32 lg:self-start">
-          <h2 className="h2 max-w-[12ch]">Looking for something specific?</h2>
+          <Heading3D text="Looking for something specific?" className="h2 max-w-[12ch]" />
           <p className="lede mt-5 text-slate">
             Tell us what you need. We will work with our sourcing network to identify the right product and specification for your requirement.
           </p>
-          <Button href="#requirement-form" variant="ink" className="mt-8 lg:hidden">
+          <Button href="#requirement-form" variant="brand" className="mt-8 lg:hidden">
             Send Your Requirement
           </Button>
           <ul className="mt-10 hidden space-y-3 text-sm text-slate lg:block">
             <li className="flex gap-3">
-              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-saffron" />
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-gold" />
               Products beyond our list can be sourced on request.
             </li>
             <li className="flex gap-3">
-              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-saffron" />
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-gold" />
               Share grade, form and packaging details if you have them.
             </li>
           </ul>
         </Reveal>
-        <Reveal delay={0.1} id="requirement-form" className="scroll-mt-28 rounded-[2rem] border border-line bg-white p-6 shadow-[0_40px_80px_-50px_rgba(12,20,49,0.35)] sm:p-9">
+        <Reveal delay={0.1} id="requirement-form" className="scroll-mt-28 rounded-[2rem] border border-line bg-white p-6 shadow-[0_40px_80px_-50px_rgba(11,36,22,0.35)] sm:p-9">
           <h3 className="mb-6 text-xl font-semibold tracking-tight">Send your requirement</h3>
           <Form
             kind="requirement"

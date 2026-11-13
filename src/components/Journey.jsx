@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion'
 import Icon, { IconShape } from './Icons.jsx'
 import Reveal from './Reveal.jsx'
+import Heading3D from './fx/Heading3D.jsx'
 import { useMedia } from '../lib/hooks.js'
 
 const steps = [
@@ -39,25 +40,25 @@ function Desktop() {
       <div className="sticky top-0 flex h-svh flex-col justify-center overflow-hidden">
         <div className="wrap">
           <div className="flex items-end justify-between gap-10">
-            <h2 className="h2 max-w-[12ch]">From farm to the world</h2>
+            <Heading3D text="From farm to the world" className="h2 max-w-[12ch]" />
             <p className="max-w-sm pb-2 text-slate">Six stages, one coordinated chain. Scroll to follow a shipment from the field to the buyer.</p>
           </div>
 
           <div className="relative mt-10">
             <svg viewBox="0 0 1200 300" className="w-full overflow-visible" aria-hidden="true">
               <path ref={pathRef} d={ROUTE} fill="none" stroke="var(--color-line)" strokeWidth="2" strokeDasharray="2 10" strokeLinecap="round" />
-              <motion.path d={ROUTE} fill="none" stroke="var(--color-saffron)" strokeWidth="3" strokeLinecap="round" style={{ pathLength: travel }} />
+              <motion.path d={ROUTE} fill="none" stroke="var(--color-gold)" strokeWidth="3" strokeLinecap="round" style={{ pathLength: travel }} />
               {nodes.map((n, i) => (
                 <g key={i} transform={`translate(${n.x} ${n.y})`}>
-                  <circle r="20" fill={i <= current ? 'var(--color-ink)' : '#fff'} stroke={i <= current ? 'var(--color-ink)' : 'var(--color-line)'} strokeWidth="2" style={{ transition: 'fill .4s, stroke .4s' }} />
+                  <circle r="20" fill={i <= current ? 'var(--color-brand)' : '#fff'} stroke={i <= current ? 'var(--color-brand)' : 'var(--color-line)'} strokeWidth="2" style={{ transition: 'fill .4s, stroke .4s' }} />
                   <text textAnchor="middle" dy="4.5" fontSize="12" fontWeight="600" fill={i <= current ? '#fff' : 'var(--color-slate)'} style={{ transition: 'fill .4s' }}>
                     {String(i + 1).padStart(2, '0')}
                   </text>
                 </g>
               ))}
               <motion.g style={{ x, y }}>
-                <circle r="34" fill="var(--color-saffron)" opacity=".18" />
-                <circle r="26" fill="var(--color-saffron)" />
+                <circle r="34" fill="var(--color-gold)" opacity=".18" />
+                <circle r="26" fill="var(--color-gold)" />
                 <g transform="translate(-14.4 -14.4) scale(1.2)" color="var(--color-night)">
                   <IconShape name={steps[current].icon} strokeWidth={1.8} />
                 </g>
@@ -68,7 +69,7 @@ function Desktop() {
           <ol className="mt-8 grid grid-cols-6 gap-4">
             {steps.map((s, i) => (
               <li key={s.title} className={`transition-all duration-500 ${i <= current ? 'opacity-100' : 'opacity-35'} ${i === current ? '-translate-y-1' : ''}`}>
-                <div className={`flex size-11 items-center justify-center rounded-full transition-colors duration-500 ${i === current ? 'bg-saffron text-night' : 'bg-ink/5 text-ink'}`}>
+                <div className={`flex size-11 items-center justify-center rounded-full transition-colors duration-500 ${i === current ? 'bg-gold text-night' : 'bg-brand/5 text-brand'}`}>
                   <Icon name={s.icon} className="size-5" />
                 </div>
                 <h3 className="mt-4 font-semibold tracking-tight">{s.title}</h3>
@@ -88,15 +89,15 @@ function Mobile() {
   return (
     <div className="wrap py-24">
       <Reveal>
-        <h2 className="h2">From farm to the world</h2>
+        <Heading3D text="From farm to the world" className="h2" />
         <p className="lede mt-4 text-slate">Six stages, one coordinated chain.</p>
       </Reveal>
       <ol ref={ref} className="relative mt-12 space-y-10 pl-16">
         <span className="absolute top-2 bottom-2 left-[1.35rem] w-0.5 bg-line" aria-hidden="true" />
-        <motion.span className="absolute top-2 bottom-2 left-[1.35rem] w-0.5 origin-top bg-saffron" style={{ scaleY: scrollYProgress }} aria-hidden="true" />
+        <motion.span className="absolute top-2 bottom-2 left-[1.35rem] w-0.5 origin-top bg-gold" style={{ scaleY: scrollYProgress }} aria-hidden="true" />
         {steps.map((s, i) => (
           <Reveal as="li" key={s.title} className="relative">
-            <span className="absolute top-0 -left-16 grid size-11 place-items-center rounded-full bg-ink text-saffron-2 ring-4 ring-paper">
+            <span className="absolute top-0 -left-16 grid size-11 place-items-center rounded-full bg-brand text-gold-2 ring-4 ring-paper">
               <Icon name={s.icon} className="size-5" />
             </span>
             <p className="text-xs text-slate tabular-nums">Step {String(i + 1).padStart(2, '0')}</p>

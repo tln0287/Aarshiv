@@ -4,31 +4,32 @@ import { Html, Line } from '@react-three/drei'
 import * as THREE from 'three'
 import { arcPoints, faceRotation, toVec } from '../../lib/geo.js'
 import { useReducedMotion } from '../../lib/hooks.js'
+import { globePalette } from '../../lib/theme.js'
 import GlobeTooltip from './GlobeTooltip.jsx'
 
-const LAND = new THREE.Color('#7083c4')
-const INDIA = new THREE.Color('#f09a45')
 const damp = THREE.MathUtils.damp
 const tmp = new THREE.Vector3()
 
-function Dots({ dots }) {
+function Dots({ dots, pal }) {
   const ref = useRef()
-  const geometry = useMemo(() => new THREE.CircleGeometry(0.0078, 6), [])
+  const geometry = useMemo(() => new THREE.CircleGeometry(0.0089, 8), [])
   useLayoutEffect(() => {
     const mesh = ref.current
     const o = new THREE.Object3D()
-    dots.forEach(([lon, lat, india], i) => {
+    const land = new THREE.Color(pal.land)
+    const india = new THREE.Color(pal.origin)
+    dots.forEach(([lon, lat, isIndia], i) => {
       const [x, y, z] = toVec(lon, lat, 1.002)
       o.position.set(x, y, z)
       o.lookAt(x * 2, y * 2, z * 2)
-      o.scale.setScalar(india ? 1.3 : 1)
+      o.scale.setScalar(isIndia ? 1.3 : 1)
       o.updateMatrix()
       mesh.setMatrixAt(i, o.matrix)
-      mesh.setColorAt(i, india ? INDIA : LAND)
+      mesh.setColorAt(i, isIndia ? india : land)
     })
     mesh.instanceMatrix.needsUpdate = true
     mesh.instanceColor.needsUpdate = true
-  }, [dots])
+  }, [dots, pal])
   return (
     <instancedMesh ref={ref} args={[geometry, undefined, dots.length]}>
       <meshBasicMaterial toneMapped={false} side={THREE.DoubleSide} />
@@ -36,28 +37,48 @@ function Dots({ dots }) {
   )
 }
 
-function Atmosphere() {
+// Ocean sphere: near-white in the middle, shading towards the edge so it reads as a ball.
+function Ocean({ pal }) {
   const material = useMemo(
     () =>
       new THREE.ShaderMaterial({
-        uniforms: { color: { value: new THREE.Color('#4d6bd6') } },
+        uniforms: { sea: { value: new THREE.Color(pal.sea) }, edge: { value: new THREE.Color(pal.edge) } },
         vertexShader: `varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
-        fragmentShader: `uniform vec3 color; varying vec3 vN; void main(){ float i = pow(0.72 - dot(vN, vec3(0.0,0.0,1.0)), 3.0); gl_FragColor = vec4(color, 1.0) * i; }`,
+        fragmentShader: `uniform vec3 sea; uniform vec3 edge; varying vec3 vN; void main(){ float f = pow(1.0 - max(dot(vN, vec3(0.0,0.0,1.0)), 0.0), 2.2); gl_FragColor = vec4(mix(sea, edge, f), 1.0);
+          #include <colorspace_fragment>
+        }`,
+      }),
+    [pal],
+  )
+  return (
+    <mesh material={material}>
+      <sphereGeometry args={[0.996, 64, 64]} />
+    </mesh>
+  )
+}
+
+function Atmosphere({ color }) {
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        uniforms: { color: { value: new THREE.Color(color) } },
+        vertexShader: `varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+        fragmentShader: `uniform vec3 color; varying vec3 vN; void main(){ float i = pow(0.72 - dot(vN, vec3(0.0,0.0,1.0)), 3.0); gl_FragColor = vec4(color, i * 0.16); }`,
         side: THREE.BackSide,
-        blending: THREE.AdditiveBlending,
+        blending: THREE.NormalBlending,
         transparent: true,
         depthWrite: false,
       }),
-    [],
+    [color],
   )
   return (
-    <mesh material={material} scale={1.16}>
+    <mesh material={material} scale={1.06}>
       <sphereGeometry args={[1, 64, 64]} />
     </mesh>
   )
 }
 
-function Route({ points, progress, index }) {
+function Route({ points, progress, index, pal }) {
   const base = useRef()
   const dash = useRef()
   const cargo = useRef()
@@ -81,20 +102,23 @@ function Route({ points, progress, index }) {
   })
   return (
     <group>
-      <Line ref={base} points={points} color="#e8892b" lineWidth={1.1} transparent opacity={0.38} />
-      <Line ref={dash} points={points} color="#ffc27d" lineWidth={2.2} dashed dashSize={0.06} gapSize={0.42} transparent opacity={0.95} />
+      <Line ref={base} points={points} color={pal.dash} lineWidth={1.8} transparent opacity={0.7} />
+      <Line ref={dash} points={points} color={pal.origin} lineWidth={3.4} dashed dashSize={0.07} gapSize={0.36} />
       <mesh ref={cargo}>
-        <sphereGeometry args={[0.014, 12, 12]} />
-        <meshBasicMaterial color="#ffffff" toneMapped={false} />
+        <sphereGeometry args={[0.019, 14, 14]} />
+        <meshBasicMaterial color={pal.marker} toneMapped={false} />
       </mesh>
     </group>
   )
 }
 
-function Marker({ place, origin, hovered, setHovered }) {
+function Marker({ place, origin, hovered, setHovered, pal }) {
+  const color = origin ? pal.origin : pal.marker
   const v = useMemo(() => toVec(place.lon, place.lat, 1.004), [place])
   const ring = useRef()
+  const disc = useRef()
   useLayoutEffect(() => {
+    disc.current.lookAt(v[0] * 2, v[1] * 2, v[2] * 2)
     ring.current.lookAt(v[0] * 2, v[1] * 2, v[2] * 2)
   }, [v])
   useFrame((s) => {
@@ -116,13 +140,17 @@ function Marker({ place, origin, hovered, setHovered }) {
   }
   return (
     <group>
+      <mesh ref={disc} position={v}>
+        <circleGeometry args={[origin ? 0.036 : 0.029, 32]} />
+        <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} toneMapped={false} />
+      </mesh>
       <mesh position={v}>
-        <sphereGeometry args={[origin ? 0.022 : 0.016, 16, 16]} />
-        <meshBasicMaterial color={origin ? '#e8892b' : '#ffffff'} toneMapped={false} />
+        <sphereGeometry args={[origin ? 0.026 : 0.02, 16, 16]} />
+        <meshBasicMaterial color={color} toneMapped={false} />
       </mesh>
       <mesh ref={ring} position={v}>
-        <ringGeometry args={[0.026, 0.034, 40]} />
-        <meshBasicMaterial color={origin ? '#e8892b' : '#ffffff'} transparent opacity={0.7} side={THREE.DoubleSide} toneMapped={false} />
+        <ringGeometry args={[0.04, 0.05, 48]} />
+        <meshBasicMaterial color={color} transparent opacity={0.85} side={THREE.DoubleSide} toneMapped={false} />
       </mesh>
       <mesh position={v} onPointerOver={over} onPointerOut={out}>
         <sphereGeometry args={[0.075, 10, 10]} />
@@ -137,15 +165,56 @@ function Marker({ place, origin, hovered, setHovered }) {
   )
 }
 
+// Small shipping containers circling the globe on a tilted orbit.
+function Orbiters({ pal, reduce }) {
+  const ring = useRef()
+  const R = 1.2
+  const boxes = useMemo(
+    () => [
+      { a: 0, color: pal.marker },
+      { a: (Math.PI * 2) / 3, color: pal.origin },
+      { a: (Math.PI * 4) / 3, color: pal.land },
+    ],
+    [pal],
+  )
+  useFrame((_, dt) => {
+    if (!reduce) ring.current.rotation.y += Math.min(dt, 0.05) * 0.28
+  })
+  return (
+    <group rotation={[0.42, 0, -0.2]}>
+      <mesh rotation-x={Math.PI / 2}>
+        <torusGeometry args={[R, 0.0025, 6, 160]} />
+        <meshBasicMaterial color={pal.marker} transparent opacity={0.28} toneMapped={false} />
+      </mesh>
+      <group ref={ring}>
+        {boxes.map((b, i) => (
+          <group key={i} position={[Math.cos(b.a) * R, 0, Math.sin(b.a) * R]} rotation-y={-b.a}>
+            <mesh>
+              <boxGeometry args={[0.03, 0.034, 0.075]} />
+              <meshStandardMaterial color={b.color} roughness={0.55} metalness={0.15} />
+            </mesh>
+            <lineSegments>
+              <edgesGeometry args={[new THREE.BoxGeometry(0.03, 0.034, 0.075)]} />
+              <lineBasicMaterial color="#ffffff" transparent opacity={0.5} />
+            </lineSegments>
+          </group>
+        ))}
+      </group>
+    </group>
+  )
+}
+
 function Scene({ geo, zoomed, routes, drag }) {
   const reduce = useReducedMotion()
   const tilt = useRef()
   const spin = useRef()
+  const rim = useRef()
   const [hovered, setHovered] = useState(null)
   const face = useMemo(() => faceRotation(geo.origin.lon, geo.origin.lat), [geo])
   const s = useRef({ auto: 0, scale: zoomed ? 1 : 2.7 })
   const progress = useRef(routes ? 1 : 0)
   const arcs = useMemo(() => geo.markets.map((m) => arcPoints(geo.origin, m, 72)), [geo])
+  const pal = useMemo(globePalette, [])
 
   useEffect(() => () => void (document.body.style.cursor = ''), [])
 
@@ -155,6 +224,7 @@ function Scene({ geo, zoomed, routes, drag }) {
     if (!reduce && !hovered && !drag.current.active) st.auto += dt * 0.055
     spin.current.rotation.y = damp(spin.current.rotation.y, face.y + st.auto + drag.current.x + state.pointer.x * 0.22, 3.5, dt)
     tilt.current.rotation.x = damp(tilt.current.rotation.x, face.x * 0.8 - state.pointer.y * 0.12, 3.5, dt)
+    rim.current.rotation.x = -tilt.current.rotation.x
     st.scale = damp(st.scale, zoomed ? 1 : 2.7, 2.1, dt)
     tilt.current.scale.setScalar(st.scale)
     progress.current = routes ? Math.min(1, progress.current + dt / 1.8) : 0
@@ -163,20 +233,24 @@ function Scene({ geo, zoomed, routes, drag }) {
   return (
     <group ref={tilt}>
       <group ref={spin} rotation-y={face.y}>
-        <mesh>
-          <sphereGeometry args={[0.996, 64, 64]} />
-          <meshBasicMaterial color="#111c45" />
-        </mesh>
-        <Dots dots={geo.globe} />
+        <Ocean pal={pal} />
+        <Dots dots={geo.globe} pal={pal} />
         {arcs.map((pts, i) => (
-          <Route key={geo.markets[i].id} points={pts} progress={progress} index={i} />
+          <Route key={geo.markets[i].id} points={pts} progress={progress} index={i} pal={pal} />
         ))}
-        <Marker place={geo.origin} origin hovered={hovered} setHovered={setHovered} />
+        <Marker place={geo.origin} origin hovered={hovered} setHovered={setHovered} pal={pal} />
         {geo.markets.map((m) => (
-          <Marker key={m.id} place={m} hovered={hovered} setHovered={setHovered} />
+          <Marker key={m.id} place={m} hovered={hovered} setHovered={setHovered} pal={pal} />
         ))}
       </group>
-      <Atmosphere />
+      <Atmosphere color={pal.glow} />
+      <mesh ref={rim}>
+        <ringGeometry args={[0.999, 1.009, 160]} />
+        <meshBasicMaterial color={pal.land} transparent opacity={0.45} toneMapped={false} />
+      </mesh>
+      <Orbiters pal={pal} reduce={reduce} />
+      <ambientLight intensity={1.6} />
+      <directionalLight position={[2, 3, 4]} intensity={1.8} />
     </group>
   )
 }
@@ -205,7 +279,7 @@ export default function GlobeGL({ geo, zoomed = true, routes = true, active = tr
       style={{ touchAction: 'pan-y' }}
     >
       <Canvas
-        dpr={[1, 1.75]}
+        dpr={[1, 2]}
         camera={{ position: [0, 0, 4.25], fov: 35 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         frameloop={active ? 'always' : 'never'}

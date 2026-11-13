@@ -4,11 +4,11 @@ import Icon from './Icons.jsx'
 import { useReducedMotion } from '../lib/hooks.js'
 
 const styles = {
-  primary: 'bg-saffron text-night hover:bg-saffron-2 shadow-[0_10px_30px_-12px_rgba(232,137,43,0.8)]',
-  light: 'bg-white text-ink hover:bg-paper shadow-[0_10px_30px_-14px_rgba(12,20,49,0.5)]',
-  ink: 'bg-ink text-white hover:bg-ink-2 shadow-[0_12px_30px_-14px_rgba(27,42,94,0.8)]',
+  primary: 'bg-gold text-night hover:bg-gold-2 shadow-[0_10px_30px_-12px_color-mix(in_oklab,var(--color-gold)_80%,transparent)]',
+  light: 'bg-white text-brand hover:bg-paper shadow-[0_10px_30px_-14px_rgba(11,36,22,0.5)]',
+  brand: 'bg-brand text-white hover:bg-brand-2 shadow-[0_12px_30px_-14px_rgba(30,107,58,0.8)]',
   ghost: 'border border-white/30 text-white hover:border-white/70 hover:bg-white/5',
-  outline: 'border border-ink/25 text-ink hover:border-ink hover:bg-ink/[0.03]',
+  outline: 'border border-brand/25 text-brand hover:border-brand hover:bg-brand/[0.03]',
 }
 
 // Pill button with a gentle magnetic pull and a double-arrow hover.

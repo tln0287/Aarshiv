@@ -1,25 +1,37 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #1b2a5e;      /* brand indigo */
-  --color-ink-2: #24356f;
-  --color-deep: #131e45;
-  --color-night: #0c1431;
-  --color-saffron: #e8892b;   /* brand saffron */
-  --color-saffron-2: #f3a65a;
-  --color-paper: #f2f1ee;     /* brand off-white */
-  --color-paper-2: #e8e5dd;
-  --color-line: #d9d5cb;
-  --color-mist: #a3aed0;
-  --color-slate: #4a5578;
-  --color-leaf: #3f8f55;
-  --color-leaf-2: #2c6e3f;
+  --color-brand: #0f4c5c; /* primary deep teal: buttons, icons, accents */
+  --color-brand-2: #16677a;
+  --color-ink: #0d2a31; /* body and heading text */
+  --color-night: #082a33; /* footer only */
+  --color-gold: #e0a526; /* gold accent and main buttons */
+  --color-gold-2: #ecc062;
+  --color-paper: #f7f5ef; /* ivory page background */
+  --color-paper-2: #e7eeec; /* pale teal-grey sections */
+  --color-line: #d5dfdc;
+  --color-mist: #9fb7bb;
+  --color-slate: #4a6066;
+  --color-logo: #1e6b3a;     /* logo wordmark green (kept in every theme) */
+  --color-leaf: #6cb33f;     /* logo sprout leaf (kept in every theme) */
+  --color-leaf-2: #3e8e41;
   --color-chilli: #b8321f;
-  --color-earth: #8a6a45;
+  --color-earth: #6b4a2b;    /* sprout stem and soil */
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Theme colours that no utility class uses (so Tailwind would drop them from @theme):
+   background glows and the globe, which reads these at runtime via src/lib/theme.js. */
+:root {
+  --color-glow: #d3e6e4;
+  --color-gold-deep: #b07d10;
+  --color-globe-sea: #f3f8f7;
+  --color-globe-edge: #c3d8d9;
+  --color-globe-land: #135a6b;
+  --color-globe-glow: #6fb3b8;
 }
 
 @layer base {
@@ -32,16 +44,15 @@
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background: var(--color-saffron);
+    background: var(--color-gold);
     color: #fff;
   }
   :focus-visible {
-    outline: 2px solid var(--color-saffron);
+    outline: 2px solid var(--color-gold);
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -84,18 +95,13 @@
     max-width: 62ch;
     text-wrap: pretty;
   }
-  .glass {
-    background: color-mix(in oklab, var(--color-night) 86%, transparent);
-    backdrop-filter: blur(16px) saturate(1.3);
-    -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  }
   .glass-light {
     background: color-mix(in oklab, #fff 72%, transparent);
     backdrop-filter: blur(14px) saturate(1.4);
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
   }
   .grain-bg {
-    background-image: radial-gradient(color-mix(in oklab, var(--color-ink) 9%, transparent) 1px, transparent 1px);
+    background-image: radial-gradient(color-mix(in oklab, var(--color-brand) 9%, transparent) 1px, transparent 1px);
     background-size: 22px 22px;
   }
 }

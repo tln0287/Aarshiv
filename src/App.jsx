@@ -13,12 +13,13 @@ import Requirement from './components/forms/Requirement.jsx'
 import Quote from './components/forms/Quote.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
+import BackToTop from './components/BackToTop.jsx'
 
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <QuoteProvider>
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-ink">
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-brand">
           Skip to content
         </a>
         <Nav />
@@ -36,6 +37,7 @@ export default function App() {
           <Contact />
         </main>
         <Footer />
+        <BackToTop />
       </QuoteProvider>
     </MotionConfig>
   )

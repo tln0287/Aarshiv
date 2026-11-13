@@ -7,6 +7,7 @@ import ProductArt from './ProductArt.jsx'
 import Button from './Button.jsx'
 import Icon from './Icons.jsx'
 import Reveal from './Reveal.jsx'
+import Heading3D from './fx/Heading3D.jsx'
 
 const N = products.length
 const STEP = 360 / N
@@ -50,7 +51,7 @@ export default function Carousel() {
     >
       <div className="wrap">
         <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="h2 max-w-[14ch]">Export products in focus</h2>
+          <Heading3D text="Export products in focus" className="h2 max-w-[14ch]" />
           <p className="max-w-xs text-slate">Rice to coconuts, one turn of the wheel. Swipe, drag or use the arrows.</p>
         </Reveal>
       </div>
@@ -99,13 +100,13 @@ export default function Carousel() {
                 }}
               >
                 <span
-                  className={`flex size-full flex-col overflow-hidden rounded-[1.6rem] border bg-white/90 shadow-[0_30px_60px_-30px_rgba(12,20,49,0.5)] ${on ? 'border-white' : 'border-white/40'}`}
+                  className={`flex size-full flex-col overflow-hidden rounded-[1.6rem] border bg-white/90 shadow-[0_30px_60px_-30px_rgba(11,36,22,0.5)] ${on ? 'border-white' : 'border-white/40'}`}
                 >
                   <span className="relative block flex-1" style={{ background: p.tone }}>
                     <ProductArt kind={p.art} className="absolute inset-0 size-full" />
                   </span>
                   <span className="flex items-center justify-between px-4 py-3 text-left">
-                    <span className="text-sm font-semibold text-ink">{p.name}</span>
+                    <span className="text-sm font-semibold text-brand">{p.name}</span>
                     <span className="text-xs text-slate tabular-nums">{p.no}</span>
                   </span>
                 </span>
@@ -118,10 +119,10 @@ export default function Carousel() {
       <div className="wrap mt-6">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           <div className="flex items-center gap-3">
-            <button type="button" onClick={() => go(-1)} aria-label="Previous product" className="grid size-12 place-items-center rounded-full border border-ink/20 bg-white/50 hover:border-ink">
+            <button type="button" onClick={() => go(-1)} aria-label="Previous product" className="grid size-12 place-items-center rounded-full border border-brand/20 bg-white/50 hover:border-brand">
               <Icon name="chevron" className="size-5 rotate-180" />
             </button>
-            <span className="w-20 text-center text-sm font-semibold text-ink tabular-nums sm:hidden" aria-hidden="true">
+            <span className="w-20 text-center text-sm font-semibold text-brand tabular-nums sm:hidden" aria-hidden="true">
               {String(mod(pos) + 1).padStart(2, '0')} / {N}
             </span>
             <div className="hidden gap-1.5 sm:flex" role="tablist" aria-label="Choose product">
@@ -135,11 +136,11 @@ export default function Carousel() {
                   onClick={() => goTo(i)}
                   className="grid h-11 w-6 place-items-center"
                 >
-                  <span className={`block h-1.5 rounded-full transition-all duration-500 ${mod(pos) === i ? 'w-6 bg-ink' : 'w-1.5 bg-ink/25'}`} />
+                  <span className={`block h-1.5 rounded-full transition-all duration-500 ${mod(pos) === i ? 'w-6 bg-brand' : 'w-1.5 bg-brand/25'}`} />
                 </button>
               ))}
             </div>
-            <button type="button" onClick={() => go(1)} aria-label="Next product" className="grid size-12 place-items-center rounded-full border border-ink/20 bg-white/50 hover:border-ink">
+            <button type="button" onClick={() => go(1)} aria-label="Next product" className="grid size-12 place-items-center rounded-full border border-brand/20 bg-white/50 hover:border-brand">
               <Icon name="chevron" className="size-5" />
             </button>
           </div>
@@ -149,7 +150,7 @@ export default function Carousel() {
               <motion.div key={active.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.4 }}>
                 <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">{active.name}</h3>
                 <p className="mx-auto mt-3 max-w-xl text-slate">{active.short}</p>
-                <p className="mt-3 text-sm text-ink/80">
+                <p className="mt-3 text-sm text-brand/80">
                   {active.formLabel}: {active.forms.join(' · ')}
                 </p>
                 <Button as="button" type="button" className="mt-6" onClick={() => requestQuote(active.name)}>

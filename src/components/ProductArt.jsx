@@ -178,7 +178,7 @@ const CARDAMOM = (() => {
 /* ---------- art ---------- */
 
 function Ground({ rx = 150 }) {
-  return <ellipse cx="200" cy="288" rx={rx} ry="16" fill="#0c1431" opacity=".14" />
+  return <ellipse cx="200" cy="288" rx={rx} ry="16" fill="#0b2416" opacity=".14" />
 }
 
 function RiceArt({ id }) {
@@ -186,8 +186,8 @@ function RiceArt({ id }) {
     <>
       <defs>
         <linearGradient id={`${id}bowl`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#2b3f86" />
-          <stop offset="1" stopColor="#111b42" />
+          <stop offset="0" stopColor="#2f7a45" />
+          <stop offset="1" stopColor="#0f3020" />
         </linearGradient>
         <radialGradient id={`${id}heap`} cx=".45" cy=".3" r=".8">
           <stop offset="0" stopColor="#fffaf0" />
@@ -210,9 +210,9 @@ function RiceArt({ id }) {
           strokeWidth=".5"
         />
       ))}
-      <ellipse cx="200" cy="198" rx="122" ry="14" fill="none" stroke="#3a51a0" strokeWidth="3" opacity=".7" />
+      <ellipse cx="200" cy="198" rx="122" ry="14" fill="none" stroke="#4c9a5a" strokeWidth="3" opacity=".7" />
       <path d="M96 214 Q 110 258 170 266" stroke="#fff" strokeOpacity=".16" strokeWidth="6" strokeLinecap="round" fill="none" />
-      <path d="M226 246 l 30 -4" stroke="var(--color-saffron)" strokeWidth="3" strokeLinecap="round" opacity=".9" />
+      <path d="M226 246 l 30 -4" stroke="var(--color-gold)" strokeWidth="3" strokeLinecap="round" opacity=".9" />
       {RICE.floating.map((g) => (
         <g key={g.i} className="float" style={{ '--d': `${g.d}s`, '--delay': `${g.delay}s` }}>
           <ellipse cx={g.x} cy={g.y} rx={6 * g.s} ry={2.2 * g.s} transform={`rotate(${g.a} ${g.x} ${g.y})`} fill="#fffaf0" stroke="#cdbf9c" strokeWidth=".5" />
@@ -319,8 +319,8 @@ function MoringaArt({ id }) {
           <stop offset="1" stopColor="#5f7f2f" />
         </radialGradient>
         <linearGradient id={`${id}dish`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#2b3f86" />
-          <stop offset="1" stopColor="#131e45" />
+          <stop offset="0" stopColor="#2f7a45" />
+          <stop offset="1" stopColor="#133b24" />
         </linearGradient>
       </defs>
       <Ground rx={150} />
@@ -335,7 +335,7 @@ function MoringaArt({ id }) {
       ))}
       <path d="M232 262 Q 236 292 290 293 Q 344 292 348 262 Z" fill={`url(#${id}dish)`} />
       <path d="M236 262 Q 262 226 290 230 Q 320 228 344 262 Z" fill={`url(#${id}pw)`} />
-      <ellipse cx="290" cy="262" rx="58" ry="7" fill="none" stroke="#3a51a0" strokeWidth="2.5" opacity=".7" />
+      <ellipse cx="290" cy="262" rx="58" ry="7" fill="none" stroke="#4c9a5a" strokeWidth="2.5" opacity=".7" />
     </>
   )
 }

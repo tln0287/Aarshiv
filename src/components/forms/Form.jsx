@@ -9,8 +9,8 @@ export function Field({ field, value, error, onChange, dark }) {
   const id = useId()
   const base = `peer w-full rounded-2xl border px-4 pt-6 pb-2.5 text-[0.98rem] outline-none transition-colors placeholder-transparent focus:ring-2 ${
     dark
-      ? 'border-white/15 bg-white/[0.06] text-white focus:border-saffron focus:ring-saffron/25'
-      : 'border-line bg-white text-ink focus:border-ink focus:ring-ink/10'
+      ? 'border-white/15 bg-white/[0.06] text-white focus:border-gold focus:ring-gold/25'
+      : 'border-line bg-white text-brand focus:border-brand focus:ring-brand/10'
   } ${error ? '!border-chilli' : ''}`
   const label = `pointer-events-none absolute left-4 top-2 text-xs transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-[0.95rem] peer-focus:top-2 peer-focus:text-xs ${
     dark ? 'text-mist' : 'text-slate'
@@ -31,10 +31,10 @@ export function Field({ field, value, error, onChange, dark }) {
         {field.type === 'textarea' ? (
           <textarea {...common} rows={4} className={`${base} resize-y`} />
         ) : field.type === 'select' ? (
-          <select {...common} className={`${base} appearance-none pr-10 ${!value ? (dark ? 'text-white/0' : 'text-ink/0') : ''}`}>
+          <select {...common} className={`${base} appearance-none pr-10 ${!value ? (dark ? 'text-white/0' : 'text-brand/0') : ''}`}>
             <option value="" disabled hidden />
             {field.options.map((o) => (
-              <option key={o} value={o} className="text-ink">
+              <option key={o} value={o} className="text-brand">
                 {o}
               </option>
             ))}
@@ -53,7 +53,7 @@ export function Field({ field, value, error, onChange, dark }) {
         )}
       </div>
       {error && (
-        <p id={`${id}-e`} className={`mt-1.5 text-sm ${dark ? 'text-saffron-2' : 'text-chilli'}`}>
+        <p id={`${id}-e`} className={`mt-1.5 text-sm ${dark ? 'text-gold-2' : 'text-chilli'}`}>
           {error}
         </p>
       )}
@@ -65,15 +65,15 @@ function Success({ title, text, onReset, dark }) {
   return (
     <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center py-10 text-center" role="status">
       <svg viewBox="0 0 96 96" className="size-24" aria-hidden="true">
-        <motion.circle cx="48" cy="48" r="44" fill="none" stroke="var(--color-saffron)" strokeWidth="3" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.8 }} style={{ rotate: -90 }} />
-        <motion.path d="M29 49l13 13 26-28" fill="none" stroke="var(--color-saffron)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.5, delay: 0.7 }} />
+        <motion.circle cx="48" cy="48" r="44" fill="none" stroke="var(--color-gold)" strokeWidth="3" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.8 }} style={{ rotate: -90 }} />
+        <motion.path d="M29 49l13 13 26-28" fill="none" stroke="var(--color-gold)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.5, delay: 0.7 }} />
         {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
           <motion.circle
             key={i}
             cx="48"
             cy="48"
             r="3"
-            fill={i % 2 ? 'var(--color-saffron)' : 'var(--color-leaf)'}
+            fill={i % 2 ? 'var(--color-gold)' : 'var(--color-leaf)'}
             initial={{ opacity: 0, x: 0, y: 0 }}
             animate={{ opacity: [0, 1, 0], x: Math.cos((i / 8) * Math.PI * 2) * 46, y: Math.sin((i / 8) * Math.PI * 2) * 46 }}
             transition={{ duration: 0.9, delay: 1 }}
@@ -82,7 +82,7 @@ function Success({ title, text, onReset, dark }) {
       </svg>
       <h3 className="mt-6 text-2xl font-semibold tracking-tight">{title}</h3>
       <p className={`mt-2 max-w-md ${dark ? 'text-mist' : 'text-slate'}`}>{text}</p>
-      <button type="button" onClick={onReset} className={`mt-6 text-sm font-semibold underline-offset-4 hover:underline ${dark ? 'text-saffron-2' : 'text-ink'}`}>
+      <button type="button" onClick={onReset} className={`mt-6 text-sm font-semibold underline-offset-4 hover:underline ${dark ? 'text-gold-2' : 'text-brand'}`}>
         Send another
       </button>
     </motion.div>

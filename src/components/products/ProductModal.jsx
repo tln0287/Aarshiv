@@ -77,7 +77,7 @@ export default function ProductModal({ product, onClose }) {
                   type="button"
                   onClick={onClose}
                   aria-label="Close"
-                  className="grid size-11 shrink-0 place-items-center rounded-full border border-line hover:border-ink"
+                  className="grid size-11 shrink-0 place-items-center rounded-full border border-line hover:border-brand"
                 >
                   <Icon name="close" className="size-5" />
                 </button>
@@ -86,7 +86,7 @@ export default function ProductModal({ product, onClose }) {
               <dl className="mt-7 grid gap-x-6 sm:grid-cols-2">
                 {rows(product).map(([label, value, icon]) => (
                   <div key={label} className="flex gap-3 border-t border-line py-3.5">
-                    <Icon name={icon} className="mt-0.5 size-5 shrink-0 text-saffron" />
+                    <Icon name={icon} className="mt-0.5 size-5 shrink-0 text-gold" />
                     <div>
                       <dt className="text-xs text-slate">{label}</dt>
                       <dd className="mt-0.5 text-[0.95rem] font-medium">{value}</dd>

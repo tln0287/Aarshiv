@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { arcPoints, faceRotation, rotate, toVec } from '../../lib/geo.js'
 import { useReducedMotion } from '../../lib/hooks.js'
 import GlobeTooltip from './GlobeTooltip.jsx'
+import { globePalette, withAlpha } from '../../lib/theme.js'
 
 // Canvas 2D globe for phones, tablets and browsers without WebGL. Same data and behaviour as GlobeGL,
 // drawn with an orthographic projection so it stays smooth on modest hardware.
@@ -17,6 +18,7 @@ export default function GlobeLite({ geo, zoomed = true, routes = true, active = 
   useEffect(() => {
     if (!geo || !active) return
     const ctx = canvas.current.getContext('2d')
+    const pal = globePalette()
     const face = faceRotation(geo.origin.lon, geo.origin.lat)
     const dots = geo.globe.map(([lon, lat, india]) => [toVec(lon, lat), india])
     const arcs = geo.markets.map((m) => arcPoints(geo.origin, m, 56))
@@ -59,23 +61,26 @@ export default function GlobeLite({ geo, zoomed = true, routes = true, active = 
       ctx.clearRect(0, 0, w, h)
 
       const glow = ctx.createRadialGradient(cx, cy, R * 0.96, cx, cy, R * 1.2)
-      glow.addColorStop(0, 'rgba(77,107,214,0.45)')
-      glow.addColorStop(1, 'rgba(77,107,214,0)')
+      glow.addColorStop(0, withAlpha(pal.glow, 0.25))
+      glow.addColorStop(1, withAlpha(pal.glow, 0))
       ctx.fillStyle = glow
       ctx.beginPath()
       ctx.arc(cx, cy, R * 1.2, 0, Math.PI * 2)
       ctx.fill()
       const body = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.1, cx, cy, R)
-      body.addColorStop(0, '#1d2b63')
-      body.addColorStop(1, '#0e1838')
+      body.addColorStop(0, pal.sea)
+      body.addColorStop(1, pal.edge)
       ctx.fillStyle = body
       ctx.beginPath()
       ctx.arc(cx, cy, R, 0, Math.PI * 2)
       ctx.fill()
+      ctx.strokeStyle = withAlpha(pal.land, 0.45)
+      ctx.lineWidth = 1.2
+      ctx.stroke()
 
-      const size = Math.max(1.3, R * 0.0125)
+      const size = Math.max(1.5, R * 0.0145)
       for (let pass = 0; pass < 2; pass++) {
-        ctx.fillStyle = pass ? '#f09a45' : '#7083c4'
+        ctx.fillStyle = pass ? pal.origin : pal.land
         for (const [v, india] of dots) {
           if ((india ? 1 : 0) !== pass) continue
           const [x, y, z] = proj(v)
@@ -103,14 +108,14 @@ export default function GlobeLite({ geo, zoomed = true, routes = true, active = 
           }
         }
         ctx.setLineDash([])
-        ctx.strokeStyle = 'rgba(232,137,43,0.45)'
-        ctx.lineWidth = 1.2
+        ctx.strokeStyle = withAlpha(pal.dash, 0.7)
+        ctx.lineWidth = 1.8
         path()
         ctx.stroke()
         ctx.setLineDash([5, 34])
         ctx.lineDashOffset = -t * 26
-        ctx.strokeStyle = '#ffc27d'
-        ctx.lineWidth = 2
+        ctx.strokeStyle = pal.origin
+        ctx.lineWidth = 3
         path()
         ctx.stroke()
         ctx.setLineDash([])
@@ -118,7 +123,7 @@ export default function GlobeLite({ geo, zoomed = true, routes = true, active = 
           const f = ((t * 0.11 + i * 0.173) % 1) * (sp.length - 1)
           const [x, y, z, d] = sp[Math.round(f)]
           if (z > 0 || d > 1) {
-            ctx.fillStyle = '#fff'
+            ctx.fillStyle = pal.marker
             ctx.beginPath()
             ctx.arc(x, y, 2.6, 0, Math.PI * 2)
             ctx.fill()
@@ -132,12 +137,12 @@ export default function GlobeLite({ geo, zoomed = true, routes = true, active = 
         if (z <= 0.05) return
         const origin = i === 0
         s.markers.push({ p, x, y })
-        ctx.fillStyle = origin ? '#e8892b' : '#fff'
+        ctx.fillStyle = origin ? pal.origin : pal.marker
         ctx.beginPath()
         ctx.arc(x, y, origin ? 4.5 : 3.4, 0, Math.PI * 2)
         ctx.fill()
         const k = origin ? (t * 0.6) % 1 : 0
-        ctx.strokeStyle = origin ? `rgba(232,137,43,${1 - k})` : 'rgba(255,255,255,0.6)'
+        ctx.strokeStyle = origin ? withAlpha(pal.origin, 1 - k) : withAlpha(pal.marker, 0.6)
         ctx.lineWidth = 1.4
         ctx.beginPath()
         ctx.arc(x, y, origin ? 7 + k * 14 : 7, 0, Math.PI * 2)

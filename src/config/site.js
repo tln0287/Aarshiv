@@ -3,15 +3,15 @@
 export const PLACEHOLDER = 'Information available on request.'
 
 export const company = {
-  name: 'Aarshiv Private Limited',
-  shortName: 'Aarshiv',
+  name: 'Sampatkari Agro Private Limited',
+  shortName: 'Sampatkari Agro',
   tagline: 'We Export Your Need.',
   supportingTagline: 'From India to the World — Quality You Can Trust.',
 }
 
 // Leave a value empty ('') to show the placeholder text instead of a link.
 export const contact = {
-  email: '',
+  email: 'enquiry@sampatkariagro.com',
   phone: '',
   whatsapp: '', // international format without + or spaces, e.g. 919876543210
   address: '',
@@ -33,6 +33,6 @@ export const nav = [
   { id: 'products', label: 'Products' },
   { id: 'process', label: 'Export Process' },
   { id: 'markets', label: 'Global Markets' },
-  { id: 'why', label: 'Why Aarshiv' },
+  { id: 'why', label: 'Why Sampatkari' },
   { id: 'contact', label: 'Contact' },
 ]
