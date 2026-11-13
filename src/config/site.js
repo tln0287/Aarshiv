@@ -12,10 +12,10 @@ export const company = {
 // Leave a value empty ('') to show the placeholder text instead of a link.
 export const contact = {
   email: 'enquiry@sampatkariagro.com',
-  phone: '',
-  whatsapp: '', // international format without + or spaces, e.g. 919876543210
-  address: '',
-  website: '',
+  phone: '+91 63007 31612',
+  whatsapp: '916300731612', // international format without + or spaces
+  address: 'Visakhapatnam, Andhra Pradesh, India',
+  website: 'https://sampatkariagro.com',
   linkedin: '',
   instagram: '',
 }
